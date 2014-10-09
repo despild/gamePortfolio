@@ -1,10 +1,10 @@
 var pg = new Phaser.Game(800,600,Phaser.AUTO, '', {preload: preload, create: create, update: update, render: render});
 var player, tap;
 var jumped;
-var map;
+var map1,map2;
 var tileset;
 var layer1, layer2;
-var tiles, tiles2;
+var tiles1, tiles2;
 function preload(){
 
    
@@ -31,29 +31,34 @@ function create(){
   
 
     //tilemap test
-    map = pg.add.tilemap('mario');
+    map1 = pg.add.tilemap('mario');
+    map2 = pg.add.tilemap('mario');
+
     var slopeMap = { '4':1,'108':1,'20':1,'5':1,'47':1,'26':1,'45':1,'66':1,'87':1,'130':1,'25':3, '129':2,'46':32,'67':32,'88':32,'109':32};
     //map.addTilesetImage('SuperMarioBros-World1-1', 'tiles');
-    map.addTilesetImage('indexWorld', 'tiles');
-    tiles = pg.physics.ninja.convertTilemap(map,layer1,slopeMap);
-    tiles2 = pg.physics.ninja.convertTilemap(map,layer2,slopeMap);
+    map1.addTilesetImage('indexWorld', 'tiles');
+    map2.addTilesetImage('indexWorld', 'tiles');
+
     // map.setCollisionBetween(14, 15);
     // map.setCollisionBetween(15, 16);
     // map.setCollisionBetween(20, 25);
     // map.setCollisionBetween(27, 29);
     // map.setCollision(40);
 
-    map.setCollisionBetween(1,131);
+    map1.setCollisionBetween(1,131);
+    map2.setCollisionBetween(1,131);
 
-    layer1 = map.createLayer('World1');
+    layer1 = map1.createLayer('World1');
 
     //layer.debug = true;
     layer1.resizeWorld();
 
-    //layer2 = map.createLayer('World2');
-    //layer2.resizeWorld();
-
-
+    layer2 = map2.createLayer('World2');
+    layer2.resizeWorld();
+    layer2.scale.x=0;
+    layer2.scale.y=0;
+    tiles1 = pg.physics.ninja.convertTilemap(map1,layer1,slopeMap);
+    tiles2 = pg.physics.ninja.convertTilemap(map2,layer2,slopeMap);
     //tap = pg.add.sprite(100,560,'tap');
     //pg.physics.ninja.enable(tap);
 
@@ -78,14 +83,28 @@ function create(){
 }
 
 function update(){
-    map.setLayer('World2');
     
     //pg.physics.ninja.collide(player, layer);
     //pg.physics.ninja.collide(player, tap);
-    for(var i = 0 ; i<tiles.length; i++){
-        player.body.aabb.collideAABBVsTile(tiles[i].tile);
-    }
+   
     player.body.velocity.x = 0;
+    if(pg.input.keyboard.isDown(Phaser.Keyboard.UP)){
+        layer1.scale.x=0;
+        layer1.scale.y=0;
+        layer2.scale.x=1;
+        layer2.scale.y=1;
+        for(var i = 0 ; i<tiles2.length; i++){
+            player.body.aabb.collideAABBVsTile(tiles2[i].tile);
+        }
+    }else{
+        layer1.scale.x=1;
+        layer1.scale.y=1;
+        layer2.scale.x=0;
+        layer2.scale.y=0;
+        for(var i = 0 ; i<tiles1.length; i++){
+            player.body.aabb.collideAABBVsTile(tiles1[i].tile);
+        }
+    }
     if(pg.input.keyboard.isDown(Phaser.Keyboard.LEFT)){
         if(pg.input.keyboard.isDown(Phaser.Keyboard.SHIFT)){
             player.body.moveLeft(50);
