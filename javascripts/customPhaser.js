@@ -3,8 +3,8 @@ var player, tap;
 var jumped;
 var map;
 var tileset;
-var layer;
-var tiles;
+var layer1, layer2;
+var tiles, tiles2;
 function preload(){
 
    
@@ -22,6 +22,7 @@ function preload(){
 function create(){
     //pg.world.setBounds(0,0,800,600);
     pg.physics.startSystem(Phaser.Physics.NINJA);
+    pg.physics.startSystem(Phaser.Physics.ARCADE);
     pg.physics.ninja.gravity.y = 500;
 
     //pg.stage.backgroundColor = '#FA34BB';
@@ -31,10 +32,11 @@ function create(){
 
     //tilemap test
     map = pg.add.tilemap('mario');
-    var slopeMap = { '26':1,'45':1,'66':1,'87':1,'130':1,'25':3, '129':2};
+    var slopeMap = { '4':1,'108':1,'20':1,'5':1,'47':1,'26':1,'45':1,'66':1,'87':1,'130':1,'25':3, '129':2,'46':32,'67':32,'88':32,'109':32};
     //map.addTilesetImage('SuperMarioBros-World1-1', 'tiles');
     map.addTilesetImage('indexWorld', 'tiles');
-    tiles = pg.physics.ninja.convertTilemap(map,layer,slopeMap);
+    tiles = pg.physics.ninja.convertTilemap(map,layer1,slopeMap);
+    tiles2 = pg.physics.ninja.convertTilemap(map,layer2,slopeMap);
     // map.setCollisionBetween(14, 15);
     // map.setCollisionBetween(15, 16);
     // map.setCollisionBetween(20, 25);
@@ -43,12 +45,13 @@ function create(){
 
     map.setCollisionBetween(1,131);
 
-    layer = map.createLayer('World1');
+    layer1 = map.createLayer('World1');
 
     //layer.debug = true;
-    layer.resizeWorld();
+    layer1.resizeWorld();
 
-
+    //layer2 = map.createLayer('World2');
+    //layer2.resizeWorld();
 
 
     //tap = pg.add.sprite(100,560,'tap');
@@ -58,6 +61,7 @@ function create(){
 
   player = pg.add.sprite(400,30,'player',5);
     pg.physics.ninja.enable(player);
+    pg.physics.arcade.enable(player);
     player.body.linearDamping = 1;
     player.body.collideWorldBounds = true;
 
@@ -74,6 +78,8 @@ function create(){
 }
 
 function update(){
+    map.setLayer('World2');
+    
     //pg.physics.ninja.collide(player, layer);
     //pg.physics.ninja.collide(player, tap);
     for(var i = 0 ; i<tiles.length; i++){
@@ -106,8 +112,8 @@ function update(){
 
     }
     if(pg.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)){
-       
-            player.body.velocity.y = -300;
+        player.body.moveUp(50);
+        //player.body.velocity.y = -300;
         
         
     }
