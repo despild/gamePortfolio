@@ -99,6 +99,8 @@ function create(){
     if(device.android || device.iOS || device.iPhone || device.iPad){
         testButton = pg.add.sprite(400,580,'ball',5);
         testButton.anchor.setTo(0.5,0.5);
+        testButton.width += 10;
+        testButton.height += 10;
         testButton.inputEnabled = true;
         testButton.events.onInputDown.add(jump, this);
     }
