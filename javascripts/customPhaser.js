@@ -212,11 +212,15 @@ function jump(){
 }
 
 function left(){
+    if(device.android || device.iOS || device.iPhone || device.iPad){
     if(pg.input.keyboard.isDown(Phaser.Keyboard.SHIFT)){
-        player.body.velocity.x = -150;
+            player.body.velocity.x = -150;
+        }else{
+            player.body.velocity.x = -80;
+        
+        }
     }else{
-        player.body.velocity.x = -80;
-    
+        player.body.velocity.x = -150;
     }
     player.scale.setTo(-1.0,1.0);
     if(!player.animations.getAnimation('turn').isFinished){
@@ -235,10 +239,13 @@ function left(){
 
 function right(){
     if(pg.input.keyboard.isDown(Phaser.Keyboard.SHIFT)){
-        player.body.velocity.x = 150;
-    }else{
-        player.body.velocity.x = 80;
+            player.body.velocity.x = 150;
+        }else{
+            player.body.velocity.x = 80;
         
+        }
+    }else{
+        player.body.velocity.x = 150;
     }
     player.scale.setTo(1.0,1.0);
     if(!player.animations.getAnimation('turn').isFinished){
