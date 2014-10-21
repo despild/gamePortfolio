@@ -15,7 +15,7 @@ var fromTween, toTween;
 var testButton; 
 function preload(){
 
-    pg.load.image('ball','./assets/sprites/aua_ball');
+    pg.load.image('ball','./assets/sprites/aqua_ball');
     pg.load.spritesheet('player','./assets/sprites/player16x16x7.png',16,16,7);
     pg.load.tilemap('map00', './assets/tilemaps/maps/lobby.json',null,Phaser.Tilemap.TILED_JSON);
     pg.load.tilemap('map01', './assets/tilemaps/maps/stage01.json',null,Phaser.Tilemap.TILED_JSON);
@@ -97,7 +97,10 @@ function create(){
     player.animations.play('front');
  
     if(device.android || device.iOS || device.iPhone || device.iPad){
-        testButton = pg.add.sprite(580,40,'ball',5);
+        testButton = pg.add.sprite(400,580,'ball',5);
+        testButton.anchor.setTo(0.5,0.5);
+        testButton.inputEnabled = true;
+        testButton.events.onInputDown.add(jump, this);
     }
 }
 
@@ -221,4 +224,10 @@ function fadeOut(sprite){
 }
 function fadeIn(sprite){
     pg.add.tween(sprite).to({alpha:1},1000,Phaser.Easing.Linear.None,true);
+}
+
+function jump(){
+     if(player.body.onFloor()){
+            player.body.velocity.y = -430;
+        }
 }
