@@ -100,14 +100,14 @@ function create(){
         var rightButton = pg.add.sprite(100,580,'ball',5);
         var jumpButton = pg.add.sprite(760,580,'ball',5);
         leftButton.anchor.setTo(0.5,0.5);
-        leftButton.width += 15;
-        leftButton.height += 15;
+        leftButton.width += 30;
+        leftButton.height += 30;
         rightButton.anchor.setTo(0.5,0.5);
-        rightButton.width += 15;
-        rightButton.height += 15;
+        rightButton.width += 30;
+        rightButton.height += 30;
         jumpButton.anchor.setTo(0.5,0.5);
-        jumpButton.width += 15;
-        jumpButton.height += 15;
+        jumpButton.width += 30;
+        jumpButton.height += 30;
 
         leftButton.inputEnabled = true;
         leftButton.events.onInputDown.add(left, this);
@@ -115,6 +115,8 @@ function create(){
         rightButton.events.onInputDown.add(right, this);
         jumpButton.inputEnabled = true;
         jumpButton.events.onInputDown.add(jump, this);
+        leftButton.events.onInputUp.add(release, this);
+        rightButton.events.onInputUp.add(release, this);
     }
 }
 
@@ -250,4 +252,9 @@ function right(){
             player.animations.play('jump');
         }
     }
+}
+
+function release(){
+    player.animations.stop('walk');
+    player.animations.play('return');
 }
