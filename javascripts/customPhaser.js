@@ -98,7 +98,7 @@ function create(){
     if(device.android || device.iOS || device.iPhone || device.iPad){
         var leftButton = pg.add.sprite(100,550,'ball',5);
         var rightButton = pg.add.sprite(250,550,'ball',5);
-        var jumpButton = pg.add.sprite(600,550,'ball',5);
+        var jumpButton = pg.add.sprite(700,550,'ball',5);
         leftButton.anchor.setTo(0.5,0.5);
         leftButton.width += 70;
         leftButton.height += 70;
