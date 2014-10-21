@@ -96,18 +96,18 @@ function create(){
     player.animations.play('front');
  
     if(device.android || device.iOS || device.iPhone || device.iPad){
-        var leftButton = pg.add.sprite(40,580,'ball',5);
-        var rightButton = pg.add.sprite(100,580,'ball',5);
-        var jumpButton = pg.add.sprite(760,580,'ball',5);
+        var leftButton = pg.add.sprite(100,580,'ball',5);
+        var rightButton = pg.add.sprite(250,580,'ball',5);
+        var jumpButton = pg.add.sprite(500,580,'ball',5);
         leftButton.anchor.setTo(0.5,0.5);
-        leftButton.width += 30;
-        leftButton.height += 30;
+        leftButton.width += 70;
+        leftButton.height += 70;
         rightButton.anchor.setTo(0.5,0.5);
-        rightButton.width += 30;
-        rightButton.height += 30;
+        rightButton.width += 70;
+        rightButton.height +=70;
         jumpButton.anchor.setTo(0.5,0.5);
-        jumpButton.width += 30;
-        jumpButton.height += 30;
+        jumpButton.width += 70;
+        jumpButton.height += 70;
 
         leftButton.inputEnabled = true;
         leftButton.events.onInputDown.add(left, this);
