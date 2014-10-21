@@ -12,7 +12,6 @@ var lobbyGroup, stage01Group;
 var isFadeEnded=true;
 var fromTween, toTween;
 
-var testButton; 
 function preload(){
 
     pg.load.image('ball','./assets/sprites/aqua_ball.png');
@@ -97,12 +96,25 @@ function create(){
     player.animations.play('front');
  
     if(device.android || device.iOS || device.iPhone || device.iPad){
-        testButton = pg.add.sprite(400,580,'ball',5);
-        testButton.anchor.setTo(0.5,0.5);
-        testButton.width += 10;
-        testButton.height += 10;
-        testButton.inputEnabled = true;
-        testButton.events.onInputDown.add(jump, this);
+        var leftButton = pg.add.sprite(40,580,'ball',5);
+        var rightButton = pg.add.sprite(70,580,'ball',5);
+        var jumpButton = pg.add.sprite(760,580,'ball',5);
+        leftButton.anchor.setTo(0.5,0.5);
+        leftButton.width += 15;
+        leftButton.height += 15;
+        rightButton.anchor.setTo(0.5,0.5);
+        rightButton.width += 15;
+        rightButton.height += 15;
+        jumpButton.anchor.setTo(0.5,0.5);
+        jumpButton.width += 15;
+        jumpButton.height += 15;
+
+        leftButton.inputEnabled = true;
+        leftButton.events.onInputDown.add(left, this);
+        rightButton.inputEnabled = true;
+        rightButton.events.onInputDown.add(right, this);
+        jumpButton.inputEnabled = true;
+        jumpButton.events.onInputDown.add(jump, this);
     }
 }
 
@@ -143,50 +155,13 @@ function update(){
     }
 
     if(pg.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)){
-        if(player.body.onFloor()){
-            player.body.velocity.y = -430;
-        }
+        jump();
     }
     if(pg.input.keyboard.isDown(Phaser.Keyboard.LEFT)){
-        if(pg.input.keyboard.isDown(Phaser.Keyboard.SHIFT)){
-                player.body.velocity.x = -150;
-            }else{
-            player.body.velocity.x = -80;
-            
-        }
-        player.scale.setTo(-1.0,1.0);
-        if(!player.animations.getAnimation('turn').isFinished){
-            player.animations.play('turn');
-        }else{
-            if(player.body.onFloor()){
-                if(!player.animations.getAnimation('walk').isPlaying && player.body.onFloor()){
-                    player.animations.play('walk',true);
-                }
-            }else{
-                player.animations.play('jump');
-            }
-            
-        }
+        left();
 
     }  else if(pg.input.keyboard.isDown(Phaser.Keyboard.RIGHT)){
-        if(pg.input.keyboard.isDown(Phaser.Keyboard.SHIFT)){
-            player.body.velocity.x = 150;
-        }else{
-            player.body.velocity.x = 80;
-            
-        }
-        player.scale.setTo(1.0,1.0);
-        if(!player.animations.getAnimation('turn').isFinished){
-            player.animations.play('turn');
-        }else{
-            if(player.body.onFloor()){
-                if(!player.animations.getAnimation('walk').isPlaying && player.body.onFloor()){
-                    player.animations.play('walk',true);
-                }
-            }else{
-                player.animations.play('jump');
-            }
-        }
+        right();
 
     }
 
@@ -231,5 +206,48 @@ function fadeIn(sprite){
 function jump(){
      if(player.body.onFloor()){
             player.body.velocity.y = -430;
+        }
+}
+
+function left(){
+    if(pg.input.keyboard.isDown(Phaser.Keyboard.SHIFT)){
+                player.body.velocity.x = -150;
+            }else{
+            player.body.velocity.x = -80;
+            
+        }
+        player.scale.setTo(-1.0,1.0);
+        if(!player.animations.getAnimation('turn').isFinished){
+            player.animations.play('turn');
+        }else{
+            if(player.body.onFloor()){
+                if(!player.animations.getAnimation('walk').isPlaying && player.body.onFloor()){
+                    player.animations.play('walk',true);
+                }
+            }else{
+                player.animations.play('jump');
+            }
+            
+        }
+}
+
+function right(){
+    if(pg.input.keyboard.isDown(Phaser.Keyboard.SHIFT)){
+            player.body.velocity.x = 150;
+        }else{
+            player.body.velocity.x = 80;
+            
+        }
+        player.scale.setTo(1.0,1.0);
+        if(!player.animations.getAnimation('turn').isFinished){
+            player.animations.play('turn');
+        }else{
+            if(player.body.onFloor()){
+                if(!player.animations.getAnimation('walk').isPlaying && player.body.onFloor()){
+                    player.animations.play('walk',true);
+                }
+            }else{
+                player.animations.play('jump');
+            }
         }
 }
