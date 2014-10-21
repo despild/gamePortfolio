@@ -15,7 +15,7 @@ var fromTween, toTween;
 var testButton; 
 function preload(){
 
-    pg.load.image('ball','./assets/sprites/aqua_ball');
+    pg.load.image('ball','./assets/sprites/aqua_ball.png');
     pg.load.spritesheet('player','./assets/sprites/player16x16x7.png',16,16,7);
     pg.load.tilemap('map00', './assets/tilemaps/maps/lobby.json',null,Phaser.Tilemap.TILED_JSON);
     pg.load.tilemap('map01', './assets/tilemaps/maps/stage01.json',null,Phaser.Tilemap.TILED_JSON);
