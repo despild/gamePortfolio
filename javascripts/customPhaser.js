@@ -11,6 +11,8 @@ var door1,door2,door3,door4;
 var lobbyGroup, stage01Group;
 var isFadeEnded=true;
 var fromTween, toTween;
+
+var testButton; 
 function preload(){
 
     pg.load.image('ball','./assets/sprites/aua_ball');
@@ -95,7 +97,7 @@ function create(){
     player.animations.play('front');
  
     if(device.android || device.iOS || device.iPhone || device.iPad){
-        var a = pg.add.sprite('ball',580,40);
+        testButton = pg.add.sprite(580,40,'ball',5);
     }
 }
 
