@@ -11,7 +11,7 @@ var door1,door2,door3,door4;
 var lobbyGroup, stage01Group;
 var isFadeEnded=true;
 var fromTween, toTween;
-
+var isLeftDown,isRightDown;
 function preload(){
 
     pg.load.image('ball','./assets/sprites/aqua_ball.png');
@@ -30,6 +30,9 @@ function create(){
     pg.physics.arcade.gravity.y = 500;
 
     device = new Phaser.Device();
+    isLeftDown = false;
+    isRightDown = false;
+
 
     pg.stage.backgroundColor = '#000';
     starfield = pg.add.tileSprite(0,0,800,600, 'starfield');
@@ -110,9 +113,9 @@ function create(){
         jumpButton.height += 70;
 
         leftButton.inputEnabled = true;
-        leftButton.events.onInputDown.add(left, this);
+        leftButton.events.onInputDown.add(leftDown, this);
         rightButton.inputEnabled = true;
-        rightButton.events.onInputDown.add(right, this);
+        rightButton.events.onInputDown.add(rightDown, this);
         jumpButton.inputEnabled = true;
         jumpButton.events.onInputDown.add(jump, this);
         leftButton.events.onInputUp.add(release, this);
@@ -126,11 +129,19 @@ function update(){
             isFadeEnded = true;
         }
     }
-    if(device.android || device.iOS || device.iPhone || device.iPad){
-    
-    }else{
-        player.body.velocity.x = 0;
+
+    player.body.velocity.x = 0;
+
+    if(isLeftDown){
+        left();
     }
+    if(isRightDown){
+        right();
+    }
+
+
+
+
     pg.physics.arcade.collide(player, layers[stage]); 
     
     if(pg.input.keyboard.isDown(Phaser.Keyboard.ONE)){
@@ -216,7 +227,7 @@ function jump(){
 
 function left(){
     if(device.android || device.iOS || device.iPhone || device.iPad){
-        player.body.velocity.x = -430;
+        player.body.velocity.x = -150;
     }else{
         if(pg.input.keyboard.isDown(Phaser.Keyboard.SHIFT)){
             player.body.velocity.x = -150;
@@ -266,4 +277,14 @@ function right(){
 function release(){
     player.animations.stop('walk');
     player.animations.play('return');
+    isLeftDown = false;
+    isRightDown =false;
+}
+
+function leftDown(){
+    isLeftDown = true;
+}
+
+function rightDown(){
+    isRightDown = true;
 }
