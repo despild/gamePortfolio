@@ -97,7 +97,7 @@ function create(){
  
     if(device.android || device.iOS || device.iPhone || device.iPad){
         var leftButton = pg.add.sprite(40,580,'ball',5);
-        var rightButton = pg.add.sprite(70,580,'ball',5);
+        var rightButton = pg.add.sprite(100,580,'ball',5);
         var jumpButton = pg.add.sprite(760,580,'ball',5);
         leftButton.anchor.setTo(0.5,0.5);
         leftButton.width += 15;
@@ -211,43 +211,43 @@ function jump(){
 
 function left(){
     if(pg.input.keyboard.isDown(Phaser.Keyboard.SHIFT)){
-                player.body.velocity.x = -150;
-            }else{
-            player.body.velocity.x = -80;
-            
-        }
-        player.scale.setTo(-1.0,1.0);
-        if(!player.animations.getAnimation('turn').isFinished){
-            player.animations.play('turn');
-        }else{
-            if(player.body.onFloor()){
-                if(!player.animations.getAnimation('walk').isPlaying && player.body.onFloor()){
-                    player.animations.play('walk',true);
-                }
-            }else{
-                player.animations.play('jump');
+        player.body.velocity.x = -150;
+    }else{
+        player.body.velocity.x = -80;
+    
+    }
+    player.scale.setTo(-1.0,1.0);
+    if(!player.animations.getAnimation('turn').isFinished){
+        player.animations.play('turn');
+    }else{
+        if(player.body.onFloor()){
+            if(!player.animations.getAnimation('walk').isPlaying && player.body.onFloor()){
+                player.animations.play('walk',true);
             }
-            
+        }else{
+            player.animations.play('jump');
         }
+        
+    }
 }
 
 function right(){
     if(pg.input.keyboard.isDown(Phaser.Keyboard.SHIFT)){
-            player.body.velocity.x = 150;
-        }else{
-            player.body.velocity.x = 80;
-            
-        }
-        player.scale.setTo(1.0,1.0);
-        if(!player.animations.getAnimation('turn').isFinished){
-            player.animations.play('turn');
-        }else{
-            if(player.body.onFloor()){
-                if(!player.animations.getAnimation('walk').isPlaying && player.body.onFloor()){
-                    player.animations.play('walk',true);
-                }
-            }else{
-                player.animations.play('jump');
+        player.body.velocity.x = 150;
+    }else{
+        player.body.velocity.x = 80;
+        
+    }
+    player.scale.setTo(1.0,1.0);
+    if(!player.animations.getAnimation('turn').isFinished){
+        player.animations.play('turn');
+    }else{
+        if(player.body.onFloor()){
+            if(!player.animations.getAnimation('walk').isPlaying && player.body.onFloor()){
+                player.animations.play('walk',true);
             }
+        }else{
+            player.animations.play('jump');
         }
+    }
 }
