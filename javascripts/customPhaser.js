@@ -213,7 +213,7 @@ function jump(){
 
 function left(){
     if(device.android || device.iOS || device.iPhone || device.iPad){
-        player.body.velocity.x = -150;
+        player.body.velocity.x = -430;
     }else{
         if(pg.input.keyboard.isDown(Phaser.Keyboard.SHIFT)){
             player.body.velocity.x = -150;
