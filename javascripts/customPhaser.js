@@ -1,4 +1,5 @@
 var pg = new Phaser.Game(800,600,Phaser.AUTO, '', {preload: preload, create: create, update: update, render: render});
+var starfield;
 var player;
 var maps=[];
 var layers=[];
@@ -9,7 +10,9 @@ function preload(){
     pg.load.spritesheet('player','./assets/sprites/player16x16x7.png',16,16,7);
     pg.load.tilemap('map00', './assets/tilemaps/maps/lobby.json',null,Phaser.Tilemap.TILED_JSON);
     pg.load.tilemap('map01', './assets/tilemaps/maps/stage01.json',null,Phaser.Tilemap.TILED_JSON);
-    pg.load.image('tiles','./assets/tilemaps/tiles/tile20x20x3.png');
+    pg.load.image('tiles','./assets/tilemaps/tiles/tileSF20x20x5.png');
+    pg.load.image('starfield','./assets/sprites/starfield.png');
+    console.log("Preload Ended");
 }
 
 function create(){
@@ -17,21 +20,28 @@ function create(){
     pg.physics.startSystem(Phaser.Physics.ARCADE);
     pg.physics.arcade.gravity.y = 500;
 
+
+    starfield = pg.add.tileSprite(0,0,800,600, 'starfield');
     pg.stage.backgroundColor = '#000';
 
     maps.push(pg.add.tilemap('map00'));
     maps.push(pg.add.tilemap('map01'));
     
+   console.log("Tilemap adding Ended"); 
+
     for(var i = 0 ;i<maps.length;i++){
         maps[i].addTilesetImage('indexWorld','tiles');
-        maps[i].setCollisionBetween(1,3);
+        maps[i].setCollisionBetween(1,5);
     }
 
    
+    console.log("collisionSetting Ended");
 
     
     layers.push(maps[0].createLayer('lobby'));
     layers.push(maps[1].createLayer('stage01'));
+
+    console.log("Creating Layer Ended");
 
     for(var i = 0 ; i<maps.length ; i++){
 
@@ -57,6 +67,8 @@ function create(){
     pg.camera.follow(player);
     
     player.animations.play('front');
+
+    console.log("Setup Ended");
 }
 
 function update(){

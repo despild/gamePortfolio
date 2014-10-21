@@ -57,9 +57,9 @@
  "tilesets":[
         {
          "firstgid":1,
-         "image":"tile.png",
+         "image":"tileSF20x20x5.png",
          "imageheight":20,
-         "imagewidth":60,
+         "imagewidth":100,
          "margin":0,
          "name":"indexWorld",
          "properties":
