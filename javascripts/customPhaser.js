@@ -1,4 +1,6 @@
 var pg = new Phaser.Game(800,600,Phaser.AUTO, '', {preload: preload, create: create, update: update, render: render});
+var device;
+
 var starfield;
 var player;
 var maps=[];
@@ -11,7 +13,7 @@ var isFadeEnded=true;
 var fromTween, toTween;
 function preload(){
 
-
+    pg.load.image('ball','./assets/sprites/aua_ball');
     pg.load.spritesheet('player','./assets/sprites/player16x16x7.png',16,16,7);
     pg.load.tilemap('map00', './assets/tilemaps/maps/lobby.json',null,Phaser.Tilemap.TILED_JSON);
     pg.load.tilemap('map01', './assets/tilemaps/maps/stage01.json',null,Phaser.Tilemap.TILED_JSON);
@@ -25,6 +27,8 @@ function create(){
 
     pg.physics.startSystem(Phaser.Physics.ARCADE);
     pg.physics.arcade.gravity.y = 500;
+
+    device = new Phaser.Device();
 
     pg.stage.backgroundColor = '#000';
     starfield = pg.add.tileSprite(0,0,800,600, 'starfield');
@@ -90,7 +94,9 @@ function create(){
     
     player.animations.play('front');
  
-
+    if(device.android || device.iOS || device.iPhone || device.iPad){
+        var a = pg.add.sprite('ball',580,40);
+    }
 }
 
 function update(){
