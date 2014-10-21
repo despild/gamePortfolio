@@ -126,8 +126,11 @@ function update(){
             isFadeEnded = true;
         }
     }
-    player.body.velocity.x = 0;
- 
+    if(device.android || device.iOS || device.iPhone || device.iPad){
+    
+    }else{
+        player.body.velocity.x = 0;
+    }
     pg.physics.arcade.collide(player, layers[stage]); 
     
     if(pg.input.keyboard.isDown(Phaser.Keyboard.ONE)){
