@@ -213,7 +213,7 @@ function jump(){
 
 function left(){
     if(device.android || device.iOS || device.iPhone || device.iPad){
-    if(pg.input.keyboard.isDown(Phaser.Keyboard.SHIFT)){
+        if(pg.input.keyboard.isDown(Phaser.Keyboard.SHIFT)){
             player.body.velocity.x = -150;
         }else{
             player.body.velocity.x = -80;
@@ -238,7 +238,8 @@ function left(){
 }
 
 function right(){
-    if(pg.input.keyboard.isDown(Phaser.Keyboard.SHIFT)){
+    if(device.android || device.iOS || device.iPhone || device.iPad){
+        if(pg.input.keyboard.isDown(Phaser.Keyboard.SHIFT)){
             player.body.velocity.x = 150;
         }else{
             player.body.velocity.x = 80;
