@@ -1,4 +1,6 @@
+
 var pg = new Phaser.Game(800,600,Phaser.AUTO, '', {preload: preload, create: create, update: update, render: render});
+
 var device;
 
 var starfield;
@@ -9,9 +11,9 @@ var stage=0;
 var stageGroups=[];
 var door1,door2,door3,door4;
 var lobbyGroup, stage01Group;
-var isFadeEnded=true;
 var fromTween, toTween;
 var isLeftDown,isRightDown;
+var banner;
 function preload(){
 
     pg.load.image('ball','./assets/sprites/aqua_ball.png');
@@ -21,15 +23,15 @@ function preload(){
     pg.load.image('tiles','./assets/tilemaps/tiles/tileSF20x20x5.png');
     pg.load.image('starfield','./assets/sprites/starfield.png');
     pg.load.image('door','./assets/sprites/lobbyDoorProto.png');
-
+    pg.load.spritesheet('banner','./assets/sprites/banner230x50x7.png',230,50,7);
 }
 
 function create(){
 
     pg.physics.startSystem(Phaser.Physics.ARCADE);
     pg.physics.arcade.gravity.y = 500;
-
     device = new Phaser.Device();
+   
     isLeftDown = false;
     isRightDown = false;
 
@@ -40,6 +42,12 @@ function create(){
     door2 = pg.add.sprite(20,360,'door');
     door3 = pg.add.sprite(520,40,'door');
     door4 = pg.add.sprite(520,360,'door');
+
+    banner = pg.add.sprite(400,0,'banner');
+
+    banner.anchor.setTo(0.5,0);
+    banner.animations.add('load',[0,1,2,3,4,5,6],20);
+    banner.animations.play('load');
 
     maps.push(pg.add.tilemap('map00'));
     maps.push(pg.add.tilemap('map01'));
@@ -58,12 +66,14 @@ function create(){
     }
 
 
+
     lobbyGroup = pg.add.group();
     lobbyGroup.add(layers[0]);
     lobbyGroup.add(door1);
     lobbyGroup.add(door2);
     lobbyGroup.add(door3);
     lobbyGroup.add(door4);
+    lobbyGroup.add(banner);
     stage01Group = pg.add.group();
     stage01Group.add(layers[1]);
 
@@ -151,7 +161,6 @@ function update(){
     }
 
     if(pg.input.keyboard.isDown(Phaser.Keyboard.UP)){
-        console.log(isFadeEnded);
         if(stage===0){
             if(player.body.x>80&&player.body.x<220){
                 if(player.body.y>100 && player.body.y<260){
