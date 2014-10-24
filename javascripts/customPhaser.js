@@ -14,6 +14,10 @@ var lobbyGroup, stage01Group;
 var fromTween, toTween;
 var isLeftDown,isRightDown;
 var banner;
+var profile = "Name : Ki-hyeok Park\n"
++"dkfkdkfkkdkf\n"
++"dfajsd;fklasdfjlsaf";
+
 function preload(){
 
     pg.load.image('ball','./assets/sprites/aqua_ball.png');
@@ -76,6 +80,9 @@ function create(){
     lobbyGroup.add(banner);
     stage01Group = pg.add.group();
     stage01Group.add(layers[1]);
+    var style = {font:"36px Arial", fill:"#CCCCCC", align:"left"};
+    var text = pg.add.text(40,40,profile,style);
+    stage01Group.add(text);
 
     stageGroups.push(lobbyGroup);
     stageGroups.push(stage01Group);
@@ -161,20 +168,37 @@ function update(){
     }
 
     if(pg.input.keyboard.isDown(Phaser.Keyboard.UP)){
-        if(stage===0){
-            if(player.body.x>80&&player.body.x<220){
-                if(player.body.y>100 && player.body.y<260){
+        if(fromTween ===undefined || toTween ===undefined){
 
-                        stageFade(0,1);
-                    
+            if(stage===0){
+                if(player.body.x>80&&player.body.x<220){
+                    if(player.body.y>100 && player.body.y<260){
+
+                            stageFade(0,1);
+                    }
                 }
-            }
-        }else if(stage===1){
+            }else if(stage===1){
 
                 stageFade(1,0);
+            }
+        }else{
+            if(!fromTween.isRunning && !toTween.isRunning){
+
+                if(stage===0){
+                    if(player.body.x>80&&player.body.x<220){
+                        if(player.body.y>100 && player.body.y<260){
+
+                                stageFade(0,1);
+                        }
+                    }
+                }else if(stage===1){
+
+                    stageFade(1,0);
+                }
+
+            }
 
         }
-        
     }else if(pg.input.keyboard.isDown(Phaser.Keyboard.DOWN)){
         
     }
@@ -204,6 +228,7 @@ function update(){
 function render(){
 
     //pg.debug.body(player);
+    pg.debug.bodyInfo(player,30,30);
 }
 
 function stageFade(from, to){
@@ -220,10 +245,17 @@ function stageFade(from, to){
     }
 
     if(from === 0){
-        player.body.x = 400;
-        player.body.y = 572;
-        pg.add.tween(player).to({alpha:0},10,Phaser.Easing.Linear.None,true)
-        .to({alpha:1},10,Phaser.Easing.Linear.None,true);
+        if(to === 1){
+            player.body.x = 400;
+            player.body.y = 564;
+            pg.add.tween(player).to({alpha:0},10,Phaser.Easing.Linear.None,true)
+            .to({alpha:1},10,Phaser.Easing.Linear.None,true);
+        }
+    }else if(from === 1){
+        if(to === 0){
+            player.body.x = 150;
+            player.body.y = 243;
+        }
     }
     
 }
