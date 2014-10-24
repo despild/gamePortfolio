@@ -218,6 +218,13 @@ function stageFade(from, to){
             stage = to;
         }
     }
+
+    if(from === 0){
+        player.body.x = 400;
+        player.body.y = 572;
+        pg.add.tween(player).to({alpha:0},10,Phaser.Easing.Linear.None,true)
+        .to({alpha:1},10,Phaser.Easing.Linear.None,true);
+    }
     
 }
 
