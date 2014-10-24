@@ -155,10 +155,16 @@ function update(){
     if(isRightDown){
         right();
     }
-
-
-
-
+    if(stage===0){
+        player.body.allowGravity = true;
+    }else if(stage===1){
+        if(player.body.x > 680 && player.body.x <800){
+            player.body.allowGravity = false;
+            player.body.velocity.y=0;
+        }else{
+            player.body.allowGravity = true;
+        }
+    }
     pg.physics.arcade.collide(player, layers[stage]); 
     
     if(pg.input.keyboard.isDown(Phaser.Keyboard.ONE)){
@@ -178,8 +184,16 @@ function update(){
                     }
                 }
             }else if(stage===1){
-
-                stageFade(1,0);
+                if(player.body.x<600){
+                    stageFade(1,0);
+                }else{
+                    if(player.body.x >680){
+                        player.body.y -=5;
+                        if(player.body.y <10){
+                            player.body = 10;
+                        }
+                    }
+                }
             }
         }else{
             if(!fromTween.isRunning && !toTween.isRunning){
@@ -188,19 +202,35 @@ function update(){
                     if(player.body.x>80&&player.body.x<220){
                         if(player.body.y>100 && player.body.y<260){
 
-                                stageFade(0,1);
+                            stageFade(0,1);
                         }
                     }
                 }else if(stage===1){
 
+                    if(player.body.x<600){
                     stageFade(1,0);
+                    }else{
+                        if(player.body.x >680){
+                            player.body.y -=5;
+                            if(player.body.y <10){
+                                player.body = 10;
+                            }
+                        }
+                    }
                 }
 
             }
 
         }
     }else if(pg.input.keyboard.isDown(Phaser.Keyboard.DOWN)){
-        
+        if(stage ===1){
+            if(player.body.x >680){
+                player.body.y +=5;
+                if(player.body.y >564){
+                    player.body.y = 564;
+                }
+            }
+        }
     }
 
     if(pg.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)){
