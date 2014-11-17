@@ -1,4 +1,5 @@
 
+
 var pg = new Phaser.Game(800,600,Phaser.AUTO, '', {preload: preload, create: create, update: update, render: render});
 
 var device;
@@ -14,9 +15,7 @@ var lobbyGroup, stage01Group;
 var fromTween, toTween;
 var isLeftDown,isRightDown;
 var banner;
-var profile = "Name : Ki-hyeok Park\n"
-+"dkfkdkfkkdkf\n"
-+"dfajsd;fklasdfjlsaf";
+var profile = "";
 
 function preload(){
 
@@ -25,6 +24,7 @@ function preload(){
     pg.load.tilemap('map00', './assets/tilemaps/maps/lobby.json',null,Phaser.Tilemap.TILED_JSON);
     pg.load.tilemap('map01', './assets/tilemaps/maps/stage01.json',null,Phaser.Tilemap.TILED_JSON);
     pg.load.image('tiles','./assets/tilemaps/tiles/tileSF20x20x5.png');
+    pg.load.image('tileStage01','./assets/tilemaps/tiles/stage01Tile20x20x15.png');
     pg.load.image('starfield','./assets/sprites/starfield.png');
     pg.load.image('door','./assets/sprites/lobbyDoorProto.png');
     pg.load.spritesheet('banner','./assets/sprites/banner230x50x7.png',230,50,7);
@@ -56,10 +56,13 @@ function create(){
     maps.push(pg.add.tilemap('map00'));
     maps.push(pg.add.tilemap('map01'));
 
-    for(var i = 0 ;i<maps.length;i++){
-        maps[i].addTilesetImage('indexWorld','tiles');
-        maps[i].setCollisionBetween(1,5);
-    }
+    // for(var i = 0 ;i<maps.length;i++){
+        maps[0].addTilesetImage('indexWorld','tiles');
+        maps[0].setCollisionBetween(1,5);
+        maps[1].addTilesetImage('indexWorld','tileStage01');
+        maps[1].setCollisionBetween(1,9);
+        
+    // }
   
     layers.push(maps[0].createLayer('lobby'));
     layers.push(maps[1].createLayer('stage01'));
@@ -155,16 +158,20 @@ function update(){
     if(isRightDown){
         right();
     }
+
+    //Stage Gravity Setting
     if(stage===0){
         player.body.allowGravity = true;
     }else if(stage===1){
-        if(player.body.x > 680 && player.body.x <800){
+        if(player.body.y > 125 && player.body.x > 660 && player.body.x <700){
             player.body.allowGravity = false;
             player.body.velocity.y=0;
         }else{
             player.body.allowGravity = true;
         }
     }
+
+
     pg.physics.arcade.collide(player, layers[stage]); 
     
     if(pg.input.keyboard.isDown(Phaser.Keyboard.ONE)){
@@ -184,16 +191,17 @@ function update(){
                     }
                 }
             }else if(stage===1){
-                if(player.body.x<600){
-                    stageFade(1,0);
-                }else{
-                    if(player.body.x >680){
-                        player.body.y -=5;
-                        if(player.body.y <10){
-                            player.body = 10;
+                if(player.body.x >740 && player.body.x < 780){
+                    if(player.body.y >70 &&player.body.y <130 ){
+                        stageFade(1,0);
+                    }
+
+                }
+                if(player.body.x > 660 && player.body.x < 700){
+                        if(player.body.y >123 && player.body.y < 575){
+                            player.body.velocity.y = -100;
                         }
                     }
-                }
             }
         }else{
             if(!fromTween.isRunning && !toTween.isRunning){
@@ -206,15 +214,14 @@ function update(){
                         }
                     }
                 }else if(stage===1){
-
-                    if(player.body.x<600){
-                    stageFade(1,0);
-                    }else{
-                        if(player.body.x >680){
-                            player.body.y -=5;
-                            if(player.body.y <10){
-                                player.body = 10;
-                            }
+                    if(player.body.x >740 && player.body.x < 780){
+                        if(player.body.y >70 &&player.body.y <130 ){
+                            stageFade(1,0);
+                        }
+                    }
+                    if(player.body.x > 660 && player.body.x < 700){
+                        if(player.body.y >123 && player.body.y < 575){
+                            player.body.velocity.y = -100;
                         }
                     }
                 }
@@ -224,11 +231,11 @@ function update(){
         }
     }else if(pg.input.keyboard.isDown(Phaser.Keyboard.DOWN)){
         if(stage ===1){
-            if(player.body.x >680){
-                player.body.y +=5;
-                if(player.body.y >564){
-                    player.body.y = 564;
-                }
+            if(player.body.x >660 && player.body.x < 700){
+                player.body.velocity.y =100;
+                // if(player.body.onFloor()){
+                //     player.body.velocity.y = 0;
+                // }
             }
         }
     }
@@ -241,7 +248,6 @@ function update(){
 
     }  else if(pg.input.keyboard.isDown(Phaser.Keyboard.RIGHT)){
         right();
-
     }
 
     if(pg.input.keyboard.justReleased(Phaser.Keyboard.LEFT)||pg.input.keyboard.justReleased(Phaser.Keyboard.RIGHT)){
@@ -276,8 +282,8 @@ function stageFade(from, to){
 
     if(from === 0){
         if(to === 1){
-            player.body.x = 400;
-            player.body.y = 564;
+            player.body.x = 760;
+            player.body.y = 130;
             pg.add.tween(player).to({alpha:0},10,Phaser.Easing.Linear.None,true)
             .to({alpha:1},10,Phaser.Easing.Linear.None,true);
         }
@@ -298,6 +304,9 @@ function fadeIn(sprite){
 }
 
 function jump(){
+    if(stage === 1){
+        
+    }
      if(player.body.onFloor()){
             player.body.velocity.y = -430;
         }
@@ -307,11 +316,36 @@ function left(){
     if(device.android || device.iOS || device.iPhone || device.iPad){
         player.body.velocity.x = -150;
     }else{
-        if(pg.input.keyboard.isDown(Phaser.Keyboard.SHIFT)){
-            player.body.velocity.x = -150;
+        if(stage === 0){
+            if(pg.input.keyboard.isDown(Phaser.Keyboard.SHIFT)){
+                player.body.velocity.x = -150;
+            }else{
+                player.body.velocity.x = -80;
+            }
+        }else if(stage === 1){
+            if(player.body.y >126){
+                
+            }else{
+                
+                if(pg.input.keyboard.isDown(Phaser.Keyboard.SHIFT)){
+                    player.body.velocity.x = -150;
+                }else{
+                    player.body.velocity.x = -80;
+             
+                }
+            }
+
+
+        }else if(stage ===2){
+
+        }else if(stage ===3){
+
+        }else if(stage ===4){
+
         }else{
-            player.body.velocity.x = -80;
+            
         }
+
     }
     player.scale.setTo(-1.0,1.0);
     if(!player.animations.getAnimation('turn').isFinished){
@@ -332,10 +366,26 @@ function right(){
     if(device.android || device.iOS || device.iPhone || device.iPad){
         player.body.velocity.x = 150;
     }else{
-        if(pg.input.keyboard.isDown(Phaser.Keyboard.SHIFT)){
-            player.body.velocity.x = 150;
-        }else{
-            player.body.velocity.x = 80;
+        if(stage === 0){
+            if(pg.input.keyboard.isDown(Phaser.Keyboard.SHIFT)){
+                player.body.velocity.x = 150;
+            }else{
+                player.body.velocity.x = 80;
+            }
+        }else if(stage === 1){
+            if(player.body.y >126){
+                
+            }else{
+                
+                if(pg.input.keyboard.isDown(Phaser.Keyboard.SHIFT)){
+                    player.body.velocity.x = 150;
+                }else{
+                    player.body.velocity.x = 80;
+             
+                }
+            }
+
+
         }
     }
     player.scale.setTo(1.0,1.0);
